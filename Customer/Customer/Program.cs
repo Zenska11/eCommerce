@@ -1,7 +1,11 @@
+//using Customer_KafkaConsumer.Handlers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.Services.AddSingleton<IHostedService, Cusomter_KafkaConsumerHandler>();
 
+Console.WriteLine("testasd");
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -3,19 +3,14 @@ using Confluent.Kafka;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-[Route("api/kafka")]
+[Route("api/customer")]
 [ApiController]
-public class KafkaProducerController : ControllerBase
+public class OfferingController : ControllerBase
 {
     private readonly ProducerConfig config = new ProducerConfig
     { BootstrapServers = "localhost:9092" };
-    private readonly string topic = "simple_topic";
+    private readonly string topic = "offerings_ch";
 
-    [HttpPost]
-    public IActionResult Post([FromQuery] string message)
-    {
-        return Created(string.Empty, SendToKafka(topic, message));
-    }
 
     [HttpGet("GetAllOfferings")]
     public async Task<IActionResult> Get()
@@ -32,7 +27,7 @@ public class KafkaProducerController : ControllerBase
         var offering1 = new Offering
         {
             Id = Guid.NewGuid(),
-            Name = "Dildo Offering",
+            Name = "Auto Offering",
             Quantity = 11,
             TotalPrice = 10,
             EffectiveDate = DateTime.Today,
@@ -43,9 +38,9 @@ public class KafkaProducerController : ControllerBase
         var product2 = new Product
         {
             Id = Guid.NewGuid(),
-            Name = "Dildo",
+            Name = "Auto",
             Color = "Blau",
-            Description = "Bester Dildo der Welt",
+            Description = "Bestes Auto der Welt",
             Price = 50,
         };
 
@@ -71,7 +66,9 @@ public class KafkaProducerController : ControllerBase
     [HttpGet("GetMessage")]
     public async Task<IActionResult> GetMessage([FromQuery] string message)
     {
-        return Ok(SendMessageToKafka(topic, message));
+        SendMessageToKafka(topic, message);
+
+        return Ok();
     }
 
     private Object SendMessageToKafka(string topic, string message)
@@ -94,23 +91,5 @@ public class KafkaProducerController : ControllerBase
         return null;
     }
 
-    private Object SendToKafka(string topic, string message)
-    {
-        using (var producer =
-                new ProducerBuilder<Null, string>(config).Build())
-        {
-            try
-            {
-                return producer.ProduceAsync(topic, new Message<Null, string> { Value = message })
-                    .GetAwaiter()
-                    .GetResult();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Oops, something went wrong: {e}");
-            }
-        }
-        return null;
-    }
 }
 
