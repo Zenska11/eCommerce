@@ -3,7 +3,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddSingleton<IHostedService, Cusomter_KafkaConsumerHandler>();
+builder.Services.AddSingleton<KafkaConsumerHandler>();
 
 Console.WriteLine("testasd");
 builder.Services.AddControllers();

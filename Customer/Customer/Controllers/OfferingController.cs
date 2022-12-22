@@ -2,14 +2,27 @@
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Newtonsoft.Json;
 
 [Route("api/customer")]
 [ApiController]
 public class OfferingController : ControllerBase
 {
-    private readonly ProducerConfig config = new ProducerConfig
+    private readonly ProducerConfig configProducer = new ProducerConfig
     { BootstrapServers = "localhost:9092" };
-    private readonly string topic = "offerings_ch";
+    private readonly string offeringsRequestTopic = "offeringsRequest_topic";
+    private readonly string offeringsResponseTopic = "offeringsResponse_topic";
+    private readonly KafkaConsumerHandler _kafkaConsumerHandler;
+    [ThreadStatic]
+    public static Weather weatherResult = null;
+    private List<Thread> threadList = new List<Thread>();
+
+    public OfferingController(KafkaConsumerHandler kafkaConsumerHandler)
+    {
+        _kafkaConsumerHandler = kafkaConsumerHandler;
+        
+    }
+
 
 
     [HttpGet("GetAllOfferings")]
@@ -66,30 +79,73 @@ public class OfferingController : ControllerBase
     [HttpGet("GetMessage")]
     public async Task<IActionResult> GetMessage([FromQuery] string message)
     {
-        SendMessageToKafka(topic, message);
+        using var producer = new ProducerBuilder<Null, string>(configProducer).Build();
+        //Weather resultWeather = new Weather("leer", 2);
 
-        return Ok();
-    }
 
-    private Object SendMessageToKafka(string topic, string message)
-    {
-        Console.WriteLine("SendMessageToKafka");
-        using (var producer =
-                new ProducerBuilder<Null, string>(config).Build())
+        
+        //threadList.Add(new Thread(
+        //() => { weatherResult = _kafkaConsumerHandler.ConsumeFromKafka(); }));
+        //threadList.Last().Start();
+        //threadList.Last().Join();
+
+        try
         {
-            try
-            {
-                return producer.ProduceAsync(topic, new Message<Null, string> { Value = message })
-                    .GetAwaiter()
-                    .GetResult();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Oops, something went wrong: {e}");
-            }
+            var response = await producer.ProduceAsync(offeringsRequestTopic,
+                new Message<Null, string> { Value = JsonConvert.SerializeObject(new Weather(message, 70)) });
+            // Console.WriteLine(response.Value);
+            
         }
-        return null;
+        catch (ProduceException<Null, string> exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        
+        
+
+        var serializedResult = JsonConvert.SerializeObject(weatherResult);
+
+        return Ok(serializedResult);
     }
+
+    //public void ConsumeFromKafka()
+    //{
+    //    Console.WriteLine("Consumer Loop started");
+
+    //    var config = new ConsumerConfig
+    //    {
+    //        GroupId = "offeringsResponse-consumer-group",
+    //        BootstrapServers = "localhost:9092",
+    //        AutoOffsetReset = AutoOffsetReset.Earliest,
+
+    //    };
+    //    using var consumer = new ConsumerBuilder<Null, string>(config).Build();
+
+    //    consumer.Subscribe(offeringsResponseTopic);
+
+    //    CancellationTokenSource token = new();
+
+    //    try
+    //    {
+
+    //        while (true)
+    //        {
+    //            var response = consumer.Consume(token.Token);
+    //            if (response.Message != null)
+    //            {
+    //                var weather = JsonConvert.DeserializeObject<Weather>(response.Message.Value);
+    //                Console.WriteLine($"State: {weather.State}, Temp: {weather.Temparature} Grad Antwort");
+    //            }
+
+    //        }
+
+
+    //    }
+    //    catch (ProduceException<Null, string> exc)
+    //    {
+    //        Console.WriteLine(exc.Message);
+    //    }
+    //}
 
 }
 

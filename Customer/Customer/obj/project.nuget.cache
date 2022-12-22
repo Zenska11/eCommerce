@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Jwp1Uf+0mN4LqNI4ifl4IMSKTUZh/+Fohz+6k9jESyY7QJzlPSVLlaw1w+GJMwtom8NAqse5FXq8bwMgZX4Rhg==",
+  "dgSpecHash": "EGN0N42ZdMUKxQUs35URWLCEHO23LixawYbJPmxtpDv9AwNK/RUKEV9WPDSARXWXKFah0zuXtAyD6UIUkwbLMw==",
   "success": true,
   "projectFilePath": "C:\\Users\\marck\\src\\.NET&Angular\\eCommerce\\Customer\\Customer\\Customer.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\marck\\.nuget\\packages\\librdkafka.redist\\1.9.2\\librdkafka.redist.1.9.2.nupkg.sha512",
     "C:\\Users\\marck\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\marck\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\marck\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\marck\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\marck\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\marck\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

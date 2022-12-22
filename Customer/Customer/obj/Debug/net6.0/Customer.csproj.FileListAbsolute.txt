@@ -51,3 +51,4 @@ C:\Users\marck\src\.NET&Angular\eCommerce\Customer\Customer\bin\Debug\net6.0\run
 C:\Users\marck\src\.NET&Angular\eCommerce\Customer\Customer\bin\Debug\net6.0\runtimes\win-x86\native\vcruntime140.dll
 C:\Users\marck\src\.NET&Angular\eCommerce\Customer\Customer\bin\Debug\net6.0\runtimes\win-x86\native\zlib1.dll
 C:\Users\marck\src\.NET&Angular\eCommerce\Customer\Customer\bin\Debug\net6.0\runtimes\win-x86\native\zstd.dll
+C:\Users\marck\src\.NET&Angular\eCommerce\Customer\Customer\bin\Debug\net6.0\Newtonsoft.Json.dll
